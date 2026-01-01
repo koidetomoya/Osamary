@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Osamari - 最小回数で割り勘精算
 
-## Getting Started
+**「面倒な割り勘計算を、一瞬で。」**
+Osamari（オサマリ）は、旅行やイベントなどでの複雑な立て替え払いを記録し、最終的に誰が誰にいくら払えばいいか（精算プラン）を**最小の送金回数**になるよう自動計算するWebアプリケーションです。
 
-First, run the development server:
+## ✨ 特徴
 
+- **ログイン不要**: URLをシェアするだけですぐに使えます。
+- **リアルタイム精算**: 支払いを追加・編集・削除すると、即座に精算プランが更新されます。
+- **スマートな計算機能**: 複数人の貸し借りを相殺し、最も効率的な送金ルート（最小回数）を提案します。
+- **かんたん共有**: LINEやその他のSNSへ1タップで共有（Web Share API対応）。
+- **編集機能**: 「金額間違えた！」という時も、履歴から簡単に修正可能。
+
+## 🛠️ 技術スタック
+
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router, Server Actions)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Database**: [AWS DynamoDB](https://aws.amazon.com/dynamodb/) (Single Table Design)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/) (Radix UI)
+- **Icons**: [Lucide React](https://lucide.dev/)
+
+## 🚀 ローカル環境での実行
+
+### 1. リポジトリのクローン
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/osamari.git
+cd osamari
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. 依存関係のインストール
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. 環境変数の設定
+ルートディレクトリに `.env.local` を作成し、AWS接続情報を設定します。
+（DynamoDBのテーブルへのアクセス権限が必要です）
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+AWS_REGION=ap-northeast-1
+DYNAMODB_TABLE_NAME=OsamariData
+```
 
-## Learn More
+### 4. 開発サーバーの起動
+```bash
+npm run dev
+```
+`http://localhost:3000` でアプリが起動します。
 
-To learn more about Next.js, take a look at the following resources:
+## 📦 デプロイ
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Vercelへのデプロイを推奨しています。
+より詳細なデプロイ手順は [deployment.md](./deployment.md) を参照してください。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Vercelにプロジェクトをインポート
+2. 環境変数（Environment Variables）にAWS認証情報を設定
+3. Deploy!
 
-## Deploy on Vercel
+## 📄 DynamoDB テーブル設計
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Single Table Designを採用しています。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **PK (Partition Key)**: string
+- **SK (Sort Key)**: string
+
+| Entity | PK | SK | Content |
+|---|---|---|---|
+| **Group Metadata** | `GROUP#{groupId}` | `METADATA` | Group Name, CreatedAt |
+| **Member** | `GROUP#{groupId}` | `MEMBER#{memberId}` | Name |
+| **Expense** | `GROUP#{groupId}` | `EXPENSE#{expenseId}` | Amount, Payer, Note, Date... |
+
+---
+Created by Antigravity
