@@ -32,9 +32,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100 p-4 text-center">
       <div className="max-w-md space-y-8 w-full">
         <div className="space-y-4">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
-            <span className="text-4xl">💸</span>
-          </div>
+
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
             Osamari
           </h1>

@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { M_PLUS_Rounded_1c } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const mplus = M_PLUS_Rounded_1c({
+  weight: ["400", "500", "700", "800"],
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-mplus",
 });
 
 export const metadata: Metadata = {
   title: "Osamari - 最小回数で割り勘精算",
-  description: "友人との旅行や食事の割り勘を、最短・最小の送金回数で精算するアプリ",
+  description: "面倒な割り勘計算を一瞬で解決。旅行やイベントの精算アプリ。",
 };
 
 export default function RootLayout({
@@ -24,9 +20,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${mplus.variable} font-sans antialiased`}
       >
         {children}
         <Toaster />
