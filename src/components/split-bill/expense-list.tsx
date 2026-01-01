@@ -62,7 +62,7 @@ export default function ExpenseList({ expenses, members, onRemove }: ExpenseList
                         </span>
                         <button
                             onClick={() => onRemove(expense.id)}
-                            className="rounded-full p-2 text-slate-400 hover:bg-red-50 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="rounded-full p-2 text-slate-300 hover:bg-red-50 hover:text-red-500 transition-colors"
                             aria-label="削除"
                         >
                             <Trash2 size={16} />

@@ -20,7 +20,7 @@ export default function Home() {
     setIsCreating(true);
     const groupId = uuidv4();
     try {
-      await createGroup(groupId, groupName || "旅行・イベント"); // Call Server Action
+      await createGroup(groupId, groupName); // Call Server Action
       router.push(`/group/${groupId}`);
     } catch (e) {
       console.error(e);
@@ -39,9 +39,9 @@ export default function Home() {
             Osamari
           </h1>
           <p className="mt-4 text-slate-600">
-            面倒な割り勘計算を、一瞬で。
+            リンクをシェアして支払いを入力するだけ。
             <br />
-            リンクをシェアするだけで、誰が誰にいくら払えばいいか自動計算します。
+            面倒な割り勘計算が一瞬で完結します。
           </p>
         </div>
 

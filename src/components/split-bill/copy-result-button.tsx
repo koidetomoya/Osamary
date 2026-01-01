@@ -34,23 +34,14 @@ export default function CopyResultButton({ settlements, members }: CopyResultBut
 
     return (
         <Button
-            variant="outline"
-            size="sm"
+            variant="ghost"
+            size="icon"
             onClick={handleCopy}
             disabled={settlements.length === 0}
-            className={`transition-all ${copied ? "bg-green-50 text-green-600 border-green-200" : ""}`}
+            className={`rounded-full transition-all ${copied ? "text-green-600 bg-green-50" : "text-slate-400 hover:text-slate-600 hover:bg-slate-100"}`}
+            title="結果をコピー"
         >
-            {copied ? (
-                <>
-                    <Check size={16} className="mr-2" />
-                    コピー完了
-                </>
-            ) : (
-                <>
-                    <Copy size={16} className="mr-2" />
-                    結果をコピー
-                </>
-            )}
+            {copied ? <Check size={18} /> : <Copy size={18} />}
         </Button>
     );
 }
