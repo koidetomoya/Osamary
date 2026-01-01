@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Share2 } from "lucide-react";
 import { addMember, deleteMember, addExpense, deleteExpense } from "@/app/actions";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface GroupDashboardProps {
     groupId: string;
@@ -45,20 +46,30 @@ export default function GroupDashboard({
 
         try {
             await addMember(groupId, newMember);
+            toast.success(`${name} を追加しました`);
             router.refresh();
         } catch (error) {
             console.error("Failed to add member", error);
-            // Revert on error would be ideal
+            toast.error("メンバーの追加に失敗しました");
+            // Revert on error
+            setMembers((prev) => prev.filter((m) => m.id !== newMember.id));
         }
     };
 
     const handleRemoveMember = async (id: string) => {
+        const memberToRemove = members.find((m) => m.id === id);
+        const previousMembers = [...members];
+
         setMembers((prev) => prev.filter((m) => m.id !== id));
+
         try {
             await deleteMember(groupId, id);
+            toast.success("メンバーを削除しました");
             router.refresh();
         } catch (error) {
             console.error("Failed to delete member", error);
+            toast.error("削除に失敗しました");
+            setMembers(previousMembers);
         }
     };
 
@@ -66,27 +77,51 @@ export default function GroupDashboard({
         setExpenses((prev) => [...prev, expense]);
         try {
             await addExpense(groupId, expense);
+            toast.success("支払いを追加しました");
             router.refresh();
         } catch (error) {
             console.error("Failed to add expense", error);
+            toast.error("支払いの追加に失敗しました");
+            setExpenses((prev) => prev.filter((e) => e.id !== expense.id));
         }
     };
 
     const handleRemoveExpense = async (id: string) => {
+        const previousExpenses = [...expenses];
         setExpenses((prev) => prev.filter((e) => e.id !== id));
+
         try {
             await deleteExpense(groupId, id);
+            toast.success("支払いを削除しました");
             router.refresh();
         } catch (error) {
             console.error("Failed to delete expense", error);
+            toast.error("削除に失敗しました");
+            setExpenses(previousExpenses);
         }
     };
 
     const copyLink = () => {
         const url = window.location.href;
         navigator.clipboard.writeText(url);
-        alert("リンクをコピーしました");
+        toast.success("リンクをコピーしました");
     };
+
+    const handleRefresh = () => {
+        router.refresh();
+        toast.success("最新情報を取得しました");
+    };
+
+    // Revalidate on visibility change (focus)
+    useEffect(() => {
+        const onVisibilityChange = () => {
+            if (document.visibilityState === "visible") {
+                router.refresh();
+            }
+        };
+        document.addEventListener("visibilitychange", onVisibilityChange);
+        return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+    }, [router]);
 
     return (
         <div className="min-h-screen bg-slate-50 pb-20">
@@ -94,10 +129,15 @@ export default function GroupDashboard({
             <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-md px-4 py-3 shadow-sm">
                 <div className="mx-auto flex max-w-2xl items-center justify-between">
                     <h1 className="text-lg font-semibold text-slate-800">Split Bill</h1>
-                    <Button variant="outline" size="sm" onClick={copyLink} className="gap-2">
-                        <Share2 size={16} />
-                        <span className="hidden sm:inline">共有</span>
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button variant="ghost" size="sm" onClick={handleRefresh}>
+                            更新
+                        </Button>
+                        <Button variant="outline" size="sm" onClick={copyLink} className="gap-2">
+                            <Share2 size={16} />
+                            <span className="hidden sm:inline">共有</span>
+                        </Button>
+                    </div>
                 </div>
             </header>
 
