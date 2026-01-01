@@ -11,4 +11,4 @@ const client = new DynamoDBClient({
 
 export const db = DynamoDBDocumentClient.from(client);
 
-export const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || "SplitBillApp";
+export const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || "OsamariData";
