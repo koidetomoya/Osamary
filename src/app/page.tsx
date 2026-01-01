@@ -18,14 +18,15 @@ export default function Home() {
       <div className="max-w-md space-y-8">
         <div className="space-y-4">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
-            <ReceiptJapaneseYen size={32} />
+            <div className="flex items-center justify-center space-x-2">
+              <span className="text-4xl">💸</span>
+              <h1 className="text-3xl font-bold text-slate-900">Osamari</h1>
+            </div>
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-            Split Bill App
-          </h1>
-          <p className="text-lg text-slate-600">
-            友人との旅行や食事の割り勘を、<br />
-            最短・最小の送金回数で精算。
+          <p className="mt-4 text-slate-600">
+            面倒な割り勘計算を、一瞬で。
+            <br />
+            リンクをシェアするだけで、誰が誰にいくら払えばいいか自動計算します。
           </p>
         </div>
 
