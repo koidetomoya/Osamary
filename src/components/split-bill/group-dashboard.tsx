@@ -6,7 +6,7 @@ import { Member, Expense } from "@/lib/types";
 import { calculateSettlements } from "@/lib/logic";
 import MembersList from "@/components/split-bill/members-list";
 import ExpenseList from "@/components/split-bill/expense-list";
-import AddExpenseDialog from "@/components/split-bill/add-expense-dialog";
+import ExpenseFormDialog from "@/components/split-bill/add-expense-dialog";
 import SettlementSummary from "@/components/split-bill/settlement-summary";
 import { Button } from "@/components/ui/button";
 import { Share2, RotateCw } from "lucide-react";
@@ -107,6 +107,21 @@ export default function GroupDashboard({
         }
     };
 
+    const handleUpdateExpense = async (updatedExpense: Expense) => {
+        const previousExpenses = [...expenses];
+        setExpenses((prev) => prev.map((e) => (e.id === updatedExpense.id ? updatedExpense : e)));
+
+        try {
+            await addExpense(groupId, updatedExpense); // addExpense serves as upsert
+            toast.success("支払いを更新しました");
+            router.refresh();
+        } catch (error) {
+            console.error("Failed to update expense", error);
+            toast.error("更新に失敗しました");
+            setExpenses(previousExpenses);
+        }
+    };
+
     const copyLink = () => {
         const url = window.location.href;
         navigator.clipboard.writeText(url);
@@ -168,10 +183,10 @@ export default function GroupDashboard({
                 <section className="space-y-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-medium text-slate-700">支払い履歴</h2>
-                        <AddExpenseDialog members={members} onAdd={handleAddExpense} />
+                        <ExpenseFormDialog members={members} onSubmit={handleAddExpense} />
                     </div>
                     <div className="max-h-[300px] overflow-y-auto pr-1">
-                        <ExpenseList expenses={expenses} members={members} onRemove={handleRemoveExpense} />
+                        <ExpenseList expenses={expenses} members={members} onRemove={handleRemoveExpense} onUpdate={handleUpdateExpense} />
                     </div>
                 </section>
 

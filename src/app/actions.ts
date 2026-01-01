@@ -132,3 +132,17 @@ export async function deleteExpense(groupId: string, expenseId: string) {
     );
     revalidatePath(`/group/${groupId}`);
 }
+
+export async function updateExpense(groupId: string, expense: Expense) {
+    await db.send(
+        new PutCommand({
+            TableName: TABLE_NAME,
+            Item: {
+                PK: `GROUP#${groupId}`,
+                SK: `EXPENSE#${expense.id}`,
+                ...expense,
+            },
+        })
+    );
+    revalidatePath(`/group/${groupId}`);
+}

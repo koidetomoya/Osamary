@@ -9,7 +9,17 @@ interface ExpenseListProps {
     onRemove: (id: string) => void;
 }
 
-export default function ExpenseList({ expenses, members, onRemove }: ExpenseListProps) {
+import ExpenseFormDialog from "./add-expense-dialog";
+import { Edit2 } from "lucide-react";
+
+interface ExpenseListProps {
+    expenses: Expense[];
+    members: Member[];
+    onRemove: (id: string) => void;
+    onUpdate: (expense: Expense) => void;
+}
+
+export default function ExpenseList({ expenses, members, onRemove, onUpdate }: ExpenseListProps) {
     const getMemberName = (id: string) => members.find((m) => m.id === id)?.name || "不明";
 
     if (expenses.length === 0) {
@@ -56,10 +66,25 @@ export default function ExpenseList({ expenses, members, onRemove }: ExpenseList
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                        <span className="font-mono text-lg font-bold text-slate-900">
+                    <div className="flex items-center gap-1">
+                        <span className="font-mono text-lg font-bold text-slate-900 mr-2">
                             {formatCurrency(expense.amount)}
                         </span>
+
+                        <ExpenseFormDialog
+                            members={members}
+                            onSubmit={onUpdate}
+                            initialData={expense}
+                            triggerButton={
+                                <button
+                                    className="rounded-full p-2 text-slate-300 hover:bg-slate-200 hover:text-slate-600 transition-colors"
+                                    aria-label="編集"
+                                >
+                                    <Edit2 size={16} />
+                                </button>
+                            }
+                        />
+
                         <button
                             onClick={() => onRemove(expense.id)}
                             className="rounded-full p-2 text-slate-300 hover:bg-red-50 hover:text-red-500 transition-colors"

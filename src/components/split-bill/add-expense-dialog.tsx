@@ -22,41 +22,49 @@ import {
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
 
-interface AddExpenseDialogProps {
+interface ExpenseFormDialogProps {
     members: Member[];
-    onAdd: (expense: Expense) => void;
+    onSubmit: (expense: Expense) => void;
+    initialData?: Expense;
+    triggerButton?: React.ReactNode;
 }
 
-export default function AddExpenseDialog({ members, onAdd }: AddExpenseDialogProps) {
+export default function ExpenseFormDialog({ members, onSubmit, initialData, triggerButton }: ExpenseFormDialogProps) {
     const [open, setOpen] = useState(false);
-    const [amount, setAmount] = useState("");
-    const [note, setNote] = useState("");
-    const [payerId, setPayerId] = useState("");
-    const [involvedMemberIds, setInvolvedMemberIds] = useState<string[]>([]);
+    const [amount, setAmount] = useState(initialData?.amount.toString() || "");
+    const [note, setNote] = useState(initialData?.note || "");
+    const [payerId, setPayerId] = useState(initialData?.payerId || "");
+    const [involvedMemberIds, setInvolvedMemberIds] = useState<string[]>(initialData?.involvedMemberIds || []);
 
-    // Initialize involved members to all members when dialog opens or members change
+    // Initialize/Reset when dialog opens or initialData changes
     useEffect(() => {
         if (open) {
-            setInvolvedMemberIds(members.map((m) => m.id));
+            setAmount(initialData?.amount.toString() || "");
+            setNote(initialData?.note || "");
+            setPayerId(initialData?.payerId || "");
+            // If editing, use existing involved members. If creating, default to all.
+            setInvolvedMemberIds(initialData?.involvedMemberIds || members.map((m) => m.id));
         }
-    }, [open, members]);
+    }, [open, initialData, members]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!amount || !payerId || involvedMemberIds.length === 0) return;
 
-        onAdd({
-            id: crypto.randomUUID(),
+        onSubmit({
+            id: initialData?.id || crypto.randomUUID(),
             amount: parseInt(amount),
             note: note,
             payerId: payerId,
             involvedMemberIds: involvedMemberIds,
-            date: new Date().toISOString(),
+            date: initialData?.date || new Date().toISOString(),
         });
 
         setOpen(false);
-        setAmount("");
-        setNote("");
+        if (!initialData) {
+            setAmount("");
+            setNote("");
+        }
         // Keep payerId
     };
 
@@ -74,18 +82,20 @@ export default function AddExpenseDialog({ members, onAdd }: AddExpenseDialogPro
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button
-                    size="sm"
-                    className="gap-1 rounded-full px-4"
-                    disabled={members.length === 0}
-                >
-                    <Plus size={16} />
-                    支払いを追加
-                </Button>
+                {triggerButton || (
+                    <Button
+                        size="sm"
+                        className="gap-1 rounded-full px-4"
+                        disabled={members.length === 0}
+                    >
+                        <Plus size={16} />
+                        支払いを追加
+                    </Button>
+                )}
             </DialogTrigger>
             <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>支払いを記録する</DialogTitle>
+                    <DialogTitle>{initialData ? "支払いを編集" : "支払いを記録する"}</DialogTitle>
                     <DialogDescription>
                         金額と支払った人、割り勘の対象者を入力してください。
                     </DialogDescription>
@@ -178,7 +188,7 @@ export default function AddExpenseDialog({ members, onAdd }: AddExpenseDialogPro
                             キャンセル
                         </Button>
                         <Button type="submit" disabled={!isFormValid}>
-                            追加する
+                            {initialData ? "更新する" : "追加する"}
                         </Button>
                     </DialogFooter>
                 </form>
