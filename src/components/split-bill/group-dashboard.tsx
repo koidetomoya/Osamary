@@ -122,10 +122,28 @@ export default function GroupDashboard({
         }
     };
 
-    const copyLink = () => {
+    const handleShare = async () => {
         const url = window.location.href;
-        navigator.clipboard.writeText(url);
-        toast.success("リンクをコピーしました");
+        const shareData = {
+            title: `Osamari - ${groupName}`,
+            text: `${groupName || "新しいグループ"}の割り勘へ参加をお願いします！｜Osamari`,
+            url: url,
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (err) {
+                // User cancelled or share failed, fallback handled implicitly or ignored if just cancellation
+                if ((err as Error).name !== "AbortError") {
+                    console.error("Share failed", err);
+                }
+            }
+        } else {
+            // Fallback for desktop/unsupported browsers
+            navigator.clipboard.writeText(url);
+            toast.success("リンクをコピーしました");
+        }
     };
 
     const handleRefresh = () => {
@@ -157,7 +175,7 @@ export default function GroupDashboard({
                             <RotateCw size={16} />
                             <span className="hidden sm:inline">更新</span>
                         </Button>
-                        <Button variant="outline" size="sm" onClick={copyLink} className="gap-2">
+                        <Button variant="outline" size="sm" onClick={handleShare} className="gap-2">
                             <Share2 size={16} />
                             <span className="hidden sm:inline">共有</span>
                         </Button>
