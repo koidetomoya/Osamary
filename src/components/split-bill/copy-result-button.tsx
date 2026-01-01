@@ -23,7 +23,8 @@ export default function CopyResultButton({ settlements, members }: CopyResultBut
                     `${getMemberName(t.from)} → ${getMemberName(t.to)}: ${formatCurrency(t.amount)}`
             ),
             "----------------",
-            "Split Bill Appで計算しました",
+            "----------------",
+            `アプリで確認: ${window.location.href}`,
         ];
 
         navigator.clipboard.writeText(lines.join("\n"));
