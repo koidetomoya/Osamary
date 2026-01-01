@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useMemo, useEffect } from "react";
 import { Member, Expense } from "@/lib/types";
 import { calculateSettlements } from "@/lib/logic";
@@ -128,7 +129,9 @@ export default function GroupDashboard({
             {/* Header */}
             <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-md px-4 py-3 shadow-sm">
                 <div className="mx-auto flex max-w-2xl items-center justify-between">
-                    <h1 className="text-lg font-semibold text-slate-800">Osamari</h1>
+                    <Link href="/" className="hover:opacity-70 transition-opacity">
+                        <h1 className="text-lg font-semibold text-slate-800">Osamari</h1>
+                    </Link>
                     <div className="flex gap-2">
                         <Button variant="ghost" size="sm" onClick={handleRefresh}>
                             更新
