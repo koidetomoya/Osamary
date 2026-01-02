@@ -28,7 +28,16 @@ export default function MyGroups() {
         }
     }, [isLoggedIn, profile]);
 
-    if (!isLoggedIn) return null;
+    if (!isLoggedIn) {
+        return (
+            <div className="w-full max-w-md pt-8 text-center space-y-2 opacity-80">
+                <p className="text-xs text-slate-500">
+                    LINEでログインすると<br />
+                    アクセスしたグループがここに履歴として残ります
+                </p>
+            </div>
+        );
+    }
 
     return (
         <div className="w-full max-w-md space-y-3 pt-4">

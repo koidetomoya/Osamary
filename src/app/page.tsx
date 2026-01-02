@@ -64,9 +64,6 @@ export default function Home() {
             {isCreating ? "作成中..." : "新しいグループを作成"}
             {!isCreating && <ArrowRight className="ml-2 h-5 w-5" />}
           </Button>
-          <p className="text-xs text-slate-400">
-            ログイン不要・即座に使い始められます
-          </p>
         </div>
 
         <MyGroups />
