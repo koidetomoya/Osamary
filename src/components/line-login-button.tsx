@@ -23,7 +23,11 @@ export default function LineLoginButton() {
                 <Button
                     variant="ghost"
                     size="sm"
-                    onClick={logout}
+                    onClick={() => {
+                        if (confirm("ログアウトしますか？")) {
+                            logout();
+                        }
+                    }}
                     className="text-slate-500 hover:text-red-500"
                 >
                     <LogOut size={16} />
