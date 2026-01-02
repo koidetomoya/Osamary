@@ -18,6 +18,16 @@ export async function createGroup(groupId: string, name?: string) {
     );
 
     if (!existing.Item) {
+        // Default name if empty
+        let groupName = name;
+        if (!groupName || groupName.trim() === "") {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            groupName = `${year}-${month}-${day}のグループ`;
+        }
+
         await db.send(
             new PutCommand({
                 TableName: TABLE_NAME,
@@ -25,7 +35,7 @@ export async function createGroup(groupId: string, name?: string) {
                     PK: `GROUP#${groupId}`,
                     SK: "METADATA",
                     createdAt: new Date().toISOString(),
-                    name: name,
+                    name: groupName,
                 },
             })
         );

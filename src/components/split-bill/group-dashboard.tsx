@@ -183,15 +183,6 @@ export default function GroupDashboard({
                     </Link>
                     <div className="flex gap-2 items-center">
                         <LineLoginButton />
-                        <Button variant="ghost" size="sm" onClick={handleRefresh} className="gap-2">
-                            <RotateCw size={16} />
-                            <span className="hidden sm:inline">更新</span>
-                        </Button>
-                        <Button variant="outline" size="sm" onClick={handleShare} className="gap-2">
-                            <Share2 size={16} />
-                            <span className="hidden sm:inline">共有</span>
-                        </Button>
-                        {/* Desktop Add Button - Removed from here */}
                     </div>
                 </div>
             </header>
@@ -199,8 +190,16 @@ export default function GroupDashboard({
             <main className="mx-auto max-w-5xl p-4">
                 {/* Group Name */}
                 {groupName && (
-                    <div className="mb-6">
-                        <h1 className="text-2xl font-bold text-slate-900">{groupName}</h1>
+                    <div className="mb-6 flex items-center justify-between gap-4">
+                        <h1 className="text-2xl font-bold text-slate-900 truncate">{groupName}</h1>
+                        <div className="flex items-center gap-1">
+                            <Button variant="ghost" size="icon" onClick={handleRefresh} className="text-slate-500 hover:text-slate-900" title="更新">
+                                <RotateCw size={20} />
+                            </Button>
+                            <Button variant="ghost" size="icon" onClick={handleShare} className="text-primary hover:text-primary/90 hover:bg-primary/5" title="共有">
+                                <Share2 size={20} />
+                            </Button>
+                        </div>
                     </div>
                 )}
 
