@@ -52,13 +52,13 @@
 
   /* Warm / Pop Palette */
   /* Background: Creamy off-white */
-  --background: oklch(0.99 0.01 90); 
+  --background: oklch(0.99 0.01 90);
   /* Foreground: Dark Charcoal, not pure black */
   --foreground: oklch(0.25 0.02 50);
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.25 0.02 50);
-  
+
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.25 0.02 50);
 
@@ -78,17 +78,22 @@
   --accent-foreground: oklch(0.3 0.05 50);
 
   --destructive: oklch(0.65 0.2 25);
-  
+
   --border: oklch(0.92 0.01 90);
   --input: oklch(0.92 0.01 90);
   --ring: oklch(0.65 0.18 45);
 
   /* Charts: Playful colors */
-  --chart-1: oklch(0.65 0.18 45); /* Orange */
-  --chart-2: oklch(0.6 0.15 150); /* Green */
-  --chart-3: oklch(0.55 0.15 250); /* Blue */
-  --chart-4: oklch(0.65 0.15 330); /* Pink */
-  --chart-5: oklch(0.7 0.15 80);  /* Yellow */
+  --chart-1: oklch(0.65 0.18 45);
+  /* Orange */
+  --chart-2: oklch(0.6 0.15 150);
+  /* Green */
+  --chart-3: oklch(0.55 0.15 250);
+  /* Blue */
+  --chart-4: oklch(0.65 0.15 330);
+  /* Pink */
+  --chart-5: oklch(0.7 0.15 80);
+  /* Yellow */
 
   --sidebar: oklch(0.99 0.01 90);
   --sidebar-foreground: oklch(0.25 0.02 50);
@@ -104,7 +109,7 @@
   /* Dark Mode adjusted for warmth */
   --background: oklch(0.18 0.02 50);
   --foreground: oklch(0.95 0.01 50);
-  
+
   --card: oklch(0.22 0.02 50);
   --card-foreground: oklch(0.95 0.01 50);
 
@@ -124,11 +129,11 @@
   --accent-foreground: oklch(0.95 0.01 50);
 
   --destructive: oklch(0.6 0.2 25);
-  
+
   --border: oklch(0.3 0.02 50);
   --input: oklch(0.3 0.02 50);
   --ring: oklch(0.7 0.15 45);
-  
+
   --chart-1: oklch(0.7 0.15 45);
   --chart-2: oklch(0.65 0.12 150);
   --chart-3: oklch(0.6 0.12 250);
@@ -149,10 +154,12 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground h-[100dvh] overflow-hidden;
+    @apply bg-background text-foreground h-[100dvh] w-full overflow-hidden fixed inset-0 overscroll-y-none;
   }
+
   html {
-    @apply h-[100dvh] overflow-hidden;
+    @apply h-[100dvh] w-full overflow-hidden overscroll-y-none;
   }
 }
