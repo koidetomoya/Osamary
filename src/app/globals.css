@@ -156,10 +156,10 @@
   }
 
   body {
-    @apply bg-background text-foreground h-[100dvh] w-full overflow-hidden fixed inset-0 overscroll-y-none;
+    @apply bg-background text-foreground h-[100dvh] overflow-hidden;
   }
 
   html {
-    @apply h-[100dvh] w-full overflow-hidden overscroll-y-none;
+    @apply h-[100dvh] overflow-hidden;
   }
 }
