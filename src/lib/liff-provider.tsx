@@ -58,6 +58,16 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
                         displayName: userProfile.displayName,
                         pictureUrl: userProfile.pictureUrl,
                     });
+
+                    // Clean up URL parameters (code, state, etc.)
+                    const url = new URL(window.location.href);
+                    if (url.searchParams.has("code") || url.searchParams.has("state") || url.searchParams.has("liffClientId")) {
+                        url.searchParams.delete("code");
+                        url.searchParams.delete("state");
+                        url.searchParams.delete("liffClientId");
+                        url.searchParams.delete("liffRedirectUri");
+                        window.history.replaceState({}, "", url.toString());
+                    }
                 }
             } catch (e: any) {
                 console.error("LIFF initialization failed", e);
