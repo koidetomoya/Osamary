@@ -32,21 +32,21 @@ export default function SettlementSummary({ settlements, members }: SettlementSu
                                 key={index}
                                 className="flex items-center justify-between group"
                             >
-                                <div className="flex items-center gap-3 text-sm">
-                                    <span className="font-semibold text-slate-700 w-[4.5em] truncate text-right">
+                                <div className="flex items-center gap-1.5 text-sm mr-2 shrink-0">
+                                    <span className="font-semibold text-slate-700 truncate text-right w-16 ml-1">
                                         {getMemberName(t.from)}
                                     </span>
-                                    <div className="flex flex-col items-center px-2 relative h-4 justify-center w-12">
-                                        <span className="text-[9px] text-slate-400 absolute -top-2 tracking-wider font-medium">PAY</span>
+                                    <div className="flex flex-col items-center px-1 relative h-4 justify-center w-8 shrink-0">
+                                        <span className="text-[8px] text-slate-400 absolute -top-1.5 tracking-wider font-medium scale-90">PAY</span>
                                         <div className="h-[1px] w-full bg-slate-300 relative">
                                             <div className="absolute right-0 -top-[3px] h-0 w-0 border-y-[4px] border-y-transparent border-l-[6px] border-l-slate-300"></div>
                                         </div>
                                     </div>
-                                    <span className="font-semibold text-slate-700 w-[4.5em] truncate">
+                                    <span className="font-semibold text-slate-700 truncate w-16">
                                         {getMemberName(t.to)}
                                     </span>
                                 </div>
-                                <div className="font-mono text-lg font-bold text-slate-900">
+                                <div className="font-mono text-lg font-bold text-slate-900 shrink-0">
                                     {formatCurrency(t.amount)}
                                 </div>
                             </div>

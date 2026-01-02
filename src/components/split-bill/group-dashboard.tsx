@@ -191,13 +191,7 @@ export default function GroupDashboard({
                             <Share2 size={16} />
                             <span className="hidden sm:inline">共有</span>
                         </Button>
-                        {/* Desktop Add Button */}
-                        <div className="hidden md:block">
-                            <ExpenseFormDialog
-                                members={members}
-                                onSubmit={handleAddExpense}
-                            />
-                        </div>
+                        {/* Desktop Add Button - Removed from here */}
                     </div>
                 </div>
             </header>
@@ -235,10 +229,10 @@ export default function GroupDashboard({
                     <div className="md:col-span-8 space-y-4">
                         <div className="flex items-center justify-between">
                             <h2 className="text-lg font-medium text-slate-700">支払い履歴</h2>
-                            {/* Mobile Header Add Button (optional, maybe just rely on FAB) */}
-                            {/*  <div className="md:hidden">
+                            {/* Desktop Add Button - Placed here */}
+                            <div className="hidden md:block">
                                 <ExpenseFormDialog members={members} onSubmit={handleAddExpense} />
-                            </div> */}
+                            </div>
                         </div>
 
                         {expenses.length === 0 ? (
