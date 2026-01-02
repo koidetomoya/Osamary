@@ -174,10 +174,10 @@ export default function GroupDashboard({
     }, [router]);
 
     return (
-        <div className="min-h-screen bg-slate-50 pb-20">
+        <div className="min-h-screen bg-slate-50 pb-20 md:pb-8">
             {/* Header */}
             <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-md px-4 py-3 shadow-sm">
-                <div className="mx-auto flex max-w-2xl items-center justify-between">
+                <div className="mx-auto flex max-w-5xl items-center justify-between">
                     <Link href="/" className="hover:opacity-70 transition-opacity">
                         <h1 className="text-lg font-semibold text-slate-800">Osamari</h1>
                     </Link>
@@ -191,43 +191,85 @@ export default function GroupDashboard({
                             <Share2 size={16} />
                             <span className="hidden sm:inline">共有</span>
                         </Button>
+                        {/* Desktop Add Button */}
+                        <div className="hidden md:block">
+                            <ExpenseFormDialog
+                                members={members}
+                                onSubmit={handleAddExpense}
+                            />
+                        </div>
                     </div>
                 </div>
             </header>
 
-            <main className="mx-auto max-w-2xl p-4 space-y-6">
+            <main className="mx-auto max-w-5xl p-4">
                 {/* Group Name */}
                 {groupName && (
-                    <div className="mb-2">
+                    <div className="mb-6">
                         <h1 className="text-2xl font-bold text-slate-900">{groupName}</h1>
                     </div>
                 )}
 
-                {/* Members Section */}
-                <section className="space-y-3">
-                    <h2 className="text-lg font-medium text-slate-700">メンバー ({members.length})</h2>
-                    <MembersList members={members} onAdd={handleAddMember} onRemove={handleRemoveMember} />
-                </section>
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                    {/* Left Column (Info & Summary) */}
+                    <div className="md:col-span-4 space-y-6 md:sticky md:top-24">
+                        {/* Settlement Section (Moved up for priority on desktop context if desired, or keep order) */}
+                        {/* Actually, let's keep members first as context provider */}
 
-                {/* Expenses Section */}
-                <section className="space-y-3">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-medium text-slate-700">支払い履歴</h2>
-                        <ExpenseFormDialog members={members} onSubmit={handleAddExpense} />
-                    </div>
-                    <div className="max-h-[300px] overflow-y-auto pr-1">
-                        <ExpenseList expenses={expenses} members={members} onRemove={handleRemoveExpense} onUpdate={handleUpdateExpense} />
-                    </div>
-                </section>
+                        {/* Members Section */}
+                        <section className="space-y-3 bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                            <h2 className="text-lg font-medium text-slate-700">メンバー ({members.length})</h2>
+                            <MembersList members={members} onAdd={handleAddMember} onRemove={handleRemoveMember} />
+                        </section>
 
-                {/* Settlement Section */}
-                {members.length > 1 && expenses.length > 0 && (
-                    <section className="space-y-3">
-                        <h2 className="text-lg font-medium text-slate-700">精算プラン</h2>
-                        <SettlementSummary settlements={settlements} members={members} />
-                    </section>
-                )}
+                        {/* Settlement Section */}
+                        {members.length > 1 && expenses.length > 0 && (
+                            <section className="space-y-3 bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                                <h2 className="text-lg font-medium text-slate-700">精算プラン</h2>
+                                <SettlementSummary settlements={settlements} members={members} />
+                            </section>
+                        )}
+                    </div>
+
+                    {/* Right Column (Expenses) */}
+                    <div className="md:col-span-8 space-y-4">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-lg font-medium text-slate-700">支払い履歴</h2>
+                            {/* Mobile Header Add Button (optional, maybe just rely on FAB) */}
+                            {/*  <div className="md:hidden">
+                                <ExpenseFormDialog members={members} onSubmit={handleAddExpense} />
+                            </div> */}
+                        </div>
+
+                        {expenses.length === 0 ? (
+                            <div className="text-center py-10 bg-slate-100/50 rounded-2xl border border-dashed border-slate-200">
+                                <p className="text-slate-500 text-sm">まだ支払いがありません</p>
+                            </div>
+                        ) : (
+                            <div className="">
+                                <ExpenseList expenses={expenses} members={members} onRemove={handleRemoveExpense} onUpdate={handleUpdateExpense} />
+                            </div>
+                        )}
+                    </div>
+                </div>
             </main>
+
+            {/* Mobile FAB */}
+            <div className="md:hidden fixed bottom-6 right-6 z-50">
+                <ExpenseFormDialog
+                    members={members}
+                    onSubmit={handleAddExpense}
+                    triggerButton={
+                        <Button
+                            size="icon"
+                            className="h-14 w-14 rounded-full shadow-lg bg-primary hover:bg-primary/90 text-white"
+                        >
+                            <span className="sr-only">支払いを追加</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
+                        </Button>
+                    }
+                />
+            </div>
         </div>
     );
 }

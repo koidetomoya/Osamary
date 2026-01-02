@@ -36,37 +36,42 @@ export default function Home() {
         <LineLoginButton />
       </div>
 
-      <div className="max-w-md space-y-6 w-full">
-        <div className="space-y-4">
-
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-            Osamari
-          </h1>
-          <p className="mt-4 text-slate-600">
-            リンクをシェアして支払いを入力するだけ。
-            <br />
-            面倒な割り勘計算が一瞬で完結します。
-          </p>
-        </div>
-
-        <div className="space-y-4 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
-          <div className="space-y-2">
-            <Label htmlFor="groupName" className="text-left block text-sm font-medium text-slate-700">グループ名 (任意)</Label>
-            <Input
-              id="groupName"
-              placeholder="例: 北海道旅行、BBQなど"
-              value={groupName}
-              onChange={(e) => setGroupName(e.target.value)}
-              className="text-base"
-            />
+      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
+        {/* Left Column: Hero & Create Form */}
+        <div className="space-y-8 text-left md:py-12">
+          <div className="space-y-4">
+            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
+              Osamari
+            </h1>
+            <p className="text-slate-600 text-lg md:text-xl leading-relaxed">
+              リンクをシェアして支払いを入力するだけ。
+              <br />
+              面倒な割り勘計算が一瞬で完結します。
+            </p>
           </div>
-          <Button onClick={handleCreateGroup} disabled={isCreating} className="w-full text-lg h-12 rounded-xl" size="lg">
-            {isCreating ? "作成中..." : "新しいグループを作成"}
-            {!isCreating && <ArrowRight className="ml-2 h-5 w-5" />}
-          </Button>
+
+          <div className="space-y-4 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div className="space-y-2">
+              <Label htmlFor="groupName" className="text-left block text-sm font-medium text-slate-700">グループ名 (任意)</Label>
+              <Input
+                id="groupName"
+                placeholder="例: 北海道旅行、BBQなど"
+                value={groupName}
+                onChange={(e) => setGroupName(e.target.value)}
+                className="text-base"
+              />
+            </div>
+            <Button onClick={handleCreateGroup} disabled={isCreating} className="w-full text-lg h-12 rounded-xl" size="lg">
+              {isCreating ? "作成中..." : "新しいグループを作成"}
+              {!isCreating && <ArrowRight className="ml-2 h-5 w-5" />}
+            </Button>
+          </div>
         </div>
 
-        <MyGroups />
+        {/* Right Column: History */}
+        <div className="w-full">
+          <MyGroups />
+        </div>
       </div>
     </div>
   );
