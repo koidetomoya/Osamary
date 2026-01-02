@@ -81,7 +81,7 @@ export const LiffProvider = ({ children }: { children: React.ReactNode }) => {
     const login = () => {
         if (!liffObject) return;
         if (!liffObject.isLoggedIn()) {
-            liffObject.login();
+            liffObject.login({ redirectUri: window.location.href });
         }
     };
 
