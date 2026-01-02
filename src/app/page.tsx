@@ -36,7 +36,7 @@ export default function Home() {
         <LineLoginButton />
       </div>
 
-      <div className="max-w-md space-y-8 w-full">
+      <div className="max-w-md space-y-6 w-full">
         <div className="space-y-4">
 
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
