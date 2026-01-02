@@ -1,6 +1,13 @@
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+
 export default function PrivacyPage() {
     return (
         <div className="container mx-auto max-w-3xl py-12 px-4">
+            <Link href="/" className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 mb-8 transition-colors">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                トップページに戻る
+            </Link>
             <h1 className="text-3xl font-bold mb-8">プライバシーポリシー</h1>
             <div className="prose prose-slate max-w-none">
                 <p>Osamari（以下，「当アプリ」といいます。）は，本ウェブサイト上で提供するサービス（以下，「本サービス」といいます。）における，ユーザーの個人情報の取扱いについて，以下のとおりプライバシーポリシー（以下，「本ポリシー」といいます。）を定めます。</p>

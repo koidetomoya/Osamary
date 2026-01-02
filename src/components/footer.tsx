@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export function Footer() {
     return (
-        <footer className="w-full py-8 text-center text-sm text-slate-500">
-            <div className="flex justify-center gap-6 mb-4 flex-wrap px-4">
+        <footer className="w-full py-4 text-center text-sm text-slate-500">
+            <div className="flex justify-center gap-6 mb-2 flex-wrap px-4">
                 <Link href="/terms" className="hover:text-slate-900 transition-colors">
                     利用規約
                 </Link>

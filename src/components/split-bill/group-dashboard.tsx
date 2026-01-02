@@ -174,7 +174,7 @@ export default function GroupDashboard({
     }, [router]);
 
     return (
-        <div className="min-h-screen bg-slate-50 pb-20 md:pb-8">
+        <div className="min-h-screen bg-background pb-20 md:pb-8">
             {/* Header */}
             <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-md px-4 py-3 shadow-sm">
                 <div className="mx-auto flex max-w-5xl items-center justify-between">

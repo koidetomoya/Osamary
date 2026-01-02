@@ -1,6 +1,13 @@
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+
 export default function AboutPage() {
     return (
         <div className="container mx-auto max-w-3xl py-12 px-4">
+            <Link href="/" className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 mb-8 transition-colors">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                トップページに戻る
+            </Link>
             <h1 className="text-3xl font-bold mb-8">運営者情報・お問い合わせ</h1>
 
             <section className="mb-8">
