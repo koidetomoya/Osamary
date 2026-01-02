@@ -36,6 +36,11 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
     const [payerId, setPayerId] = useState(initialData?.payerId || "");
     const [involvedMemberIds, setInvolvedMemberIds] = useState<string[]>(initialData?.involvedMemberIds || []);
 
+    // Currency Support
+    const [currency, setCurrency] = useState(initialData?.currencyCode || "JPY");
+    const [foreignAmount, setForeignAmount] = useState(initialData?.foreignAmount?.toString() || "");
+    const [exchangeRate, setExchangeRate] = useState(initialData?.exchangeRate?.toString() || "");
+
     // Initialize/Reset when dialog opens or initialData changes
     useEffect(() => {
         if (open) {
@@ -44,8 +49,22 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
             setPayerId(initialData?.payerId || "");
             // If editing, use existing involved members. If creating, default to all.
             setInvolvedMemberIds(initialData?.involvedMemberIds || members.map((m) => m.id));
+
+            setCurrency(initialData?.currencyCode || "JPY");
+            setForeignAmount(initialData?.foreignAmount?.toString() || "");
+            setExchangeRate(initialData?.exchangeRate?.toString() || "");
         }
     }, [open, initialData, members]);
+
+    // Auto-calculate JPY amount when foreign amount or rate changes
+    useEffect(() => {
+        if (currency !== "JPY" && foreignAmount && exchangeRate) {
+            const calculated = Math.round(parseFloat(foreignAmount) * parseFloat(exchangeRate));
+            if (!isNaN(calculated)) {
+                setAmount(calculated.toString());
+            }
+        }
+    }, [currency, foreignAmount, exchangeRate]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -58,12 +77,18 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
             payerId: payerId,
             involvedMemberIds: involvedMemberIds,
             date: initialData?.date || new Date().toISOString(),
+            currencyCode: currency,
+            foreignAmount: currency !== "JPY" && foreignAmount ? parseFloat(foreignAmount) : undefined,
+            exchangeRate: currency !== "JPY" && exchangeRate ? parseFloat(exchangeRate) : undefined,
         });
 
         setOpen(false);
         if (!initialData) {
             setAmount("");
             setNote("");
+            setCurrency("JPY");
+            setForeignAmount("");
+            setExchangeRate("");
         }
         // Keep payerId
     };
@@ -78,6 +103,21 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
 
     const isFormValid =
         amount && payerId && parseInt(amount) > 0 && involvedMemberIds.length > 0;
+
+    const currencies = [
+        { code: "JPY", label: "日本円 (JPY)", symbol: "¥" },
+        { code: "USD", label: "米ドル (USD)", symbol: "$" },
+        { code: "EUR", label: "ユーロ (EUR)", symbol: "€" },
+        { code: "KRW", label: "韓国ウォン (KRW)", symbol: "₩" },
+        { code: "CNY", label: "中国元 (CNY)", symbol: "¥" },
+        { code: "TWD", label: "台湾ドル (TWD)", symbol: "NT$" },
+        { code: "GBP", label: "英ポンド (GBP)", symbol: "£" },
+        { code: "AUD", label: "豪ドル (AUD)", symbol: "A$" },
+        { code: "THB", label: "タイバーツ (THB)", symbol: "฿" },
+        { code: "VND", label: "ベトナムドン (VND)", symbol: "₫" },
+    ];
+
+    const currentCurrencySymbol = currencies.find(c => c.code === currency)?.symbol || "";
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -119,9 +159,68 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
                         </Select>
                     </div>
 
-                    {/* Amount */}
+                    {/* Currency Select */}
                     <div className="space-y-2">
-                        <Label htmlFor="amount">金額</Label>
+                        <Label htmlFor="currency">通貨</Label>
+                        <Select value={currency} onValueChange={setCurrency}>
+                            <SelectTrigger id="currency">
+                                <SelectValue placeholder="通貨を選択" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {currencies.map((c) => (
+                                    <SelectItem key={c.code} value={c.code}>
+                                        {c.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    {/* Foreign Amount & Rate (if not JPY) */}
+                    {currency !== "JPY" && (
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="foreignAmount">現地金額 ({currency})</Label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">
+                                        {currentCurrencySymbol}
+                                    </span>
+                                    <Input
+                                        id="foreignAmount"
+                                        type="number"
+                                        step="0.01"
+                                        placeholder="0.00"
+                                        className="pl-8"
+                                        value={foreignAmount}
+                                        onChange={(e) => setForeignAmount(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="exchangeRate">レート (対円)</Label>
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs">
+                                        x
+                                    </span>
+                                    <Input
+                                        id="exchangeRate"
+                                        type="number"
+                                        step="0.01"
+                                        placeholder="150"
+                                        className="pl-6"
+                                        value={exchangeRate}
+                                        onChange={(e) => setExchangeRate(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Amount (JPY) */}
+                    <div className="space-y-2">
+                        <Label htmlFor="amount">
+                            {currency === "JPY" ? "金額 (円)" : "換算金額 (円)"}
+                        </Label>
                         <div className="relative">
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">
                                 ¥
@@ -134,8 +233,14 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
                                 min="1"
+                                readOnly={currency !== "JPY"} // Read-only if calculated from foreign currency
                             />
                         </div>
+                        {currency !== "JPY" && (
+                            <p className="text-xs text-slate-500 text-right">
+                                ※ 精算はこの日本円換算額で行われます
+                            </p>
+                        )}
                     </div>
 
                     {/* Note */}

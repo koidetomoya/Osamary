@@ -22,6 +22,14 @@ interface ExpenseListProps {
 export default function ExpenseList({ expenses, members, onRemove, onUpdate }: ExpenseListProps) {
     const getMemberName = (id: string) => members.find((m) => m.id === id)?.name || "不明";
 
+    const getCurrencySymbol = (code: string) => {
+        const currencies: Record<string, string> = {
+            JPY: "¥", USD: "$", EUR: "€", KRW: "₩", CNY: "¥",
+            TWD: "NT$", GBP: "£", AUD: "A$", THB: "฿", VND: "₫"
+        };
+        return currencies[code] || code;
+    };
+
     if (expenses.length === 0) {
         return (
             <Card className="flex h-32 flex-col items-center justify-center border-dashed bg-slate-50 text-slate-400">
@@ -67,9 +75,22 @@ export default function ExpenseList({ expenses, members, onRemove, onUpdate }: E
                         </div>
                     </div>
                     <div className="flex items-center gap-1">
-                        <span className="font-mono text-lg font-bold text-slate-900 mr-2">
-                            {formatCurrency(expense.amount)}
-                        </span>
+                        <div className="text-right mr-2">
+                            {expense.currencyCode && expense.currencyCode !== 'JPY' && expense.foreignAmount ? (
+                                <>
+                                    <div className="font-mono text-lg font-bold text-slate-900 leading-none">
+                                        {getCurrencySymbol(expense.currencyCode)}{expense.foreignAmount.toLocaleString()}
+                                    </div>
+                                    <div className="text-xs text-slate-400 font-mono">
+                                        {formatCurrency(expense.amount)}
+                                    </div>
+                                </>
+                            ) : (
+                                <span className="font-mono text-lg font-bold text-slate-900">
+                                    {formatCurrency(expense.amount)}
+                                </span>
+                            )}
+                        </div>
 
                         <ExpenseFormDialog
                             members={members}

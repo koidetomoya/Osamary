@@ -69,6 +69,9 @@ export async function getGroupData(groupId: string) {
             payerId: item.payerId,
             involvedMemberIds: item.involvedMemberIds,
             date: item.date,
+            currencyCode: item.currencyCode,
+            foreignAmount: item.foreignAmount,
+            exchangeRate: item.exchangeRate,
         } as Expense))
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 

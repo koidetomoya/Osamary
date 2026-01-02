@@ -10,6 +10,9 @@ export interface Expense {
     payerId: string;
     involvedMemberIds: string[]; // IDs of members who share this expense
     date: string; // ISO String
+    currencyCode?: string; // default 'JPY'
+    foreignAmount?: number;
+    exchangeRate?: number;
 }
 
 export interface Transaction {
