@@ -1,6 +1,6 @@
 # Handoff Notes for Future Agents
 
-This document contains context, architectural decisions, and guidelines for AI agents continuing the development of **Osamari**.
+This document contains context, architectural decisions, and guidelines for AI agents continuing the development of **Osamary**.
 
 ## 🚨 Core Instruction
 **You MUST strictly adhere to the following rule:**
@@ -14,7 +14,7 @@ This document contains context, architectural decisions, and guidelines for AI a
   - Uses strictly **Server Actions** (`src/app/actions.ts`) for data mutations.
   - Client components (`GroupDashboard`) manage local optimistic state for immediate feedback, but the source of truth is the server.
 - **Database**: AWS DynamoDB.
-  - **Single Table Design**: We use one table (`OsamariData` by default) for all entities (Groups, Members, Expenses).
+  - **Single Table Design**: We use one table (`OsamaryData` by default) for all entities (Groups, Members, Expenses).
   - **PK/SK Schema**:
     - Group Metadata: `PK=GROUP#{id}`, `SK=METADATA`
     - Members: `PK=GROUP#{id}`, `SK=MEMBER#{id}`
@@ -35,7 +35,7 @@ This document contains context, architectural decisions, and guidelines for AI a
 ## 📝 Recent Context (as of Jan 2026)
 - **Edit Functionality**: We recently implemented the ability to *edit* expenses (not just delete/add). `updateExpense` action acts as an upsert.
 - **Safety**: Deletion of members or expenses requires a confirmation dialog (`window.confirm`).
-- **Rebranding**: The project was renamed from `split-bill-app` to `Osamari`. Ensure no references to the old name persist in user-facing text.
+- **Rebranding**: The project was renamed from `split-bill-app` to `Osamary`. Ensure no references to the old name persist in user-facing text.
 
 ## 🚀 Potential Next Steps
 - **PWA Support**: Making the app installable.

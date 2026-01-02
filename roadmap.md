@@ -1,4 +1,4 @@
-# Future Development Roadmap: Osamari
+# Future Development Roadmap: Osamary
 
 本アプリをより実用的で便利なものにするための、段階的な開発計画です。
 現在は **Phase 1 (データ永続化)** と **シェア機能・編集機能** までの実装が完了し、実運用可能な状態です。
@@ -59,5 +59,5 @@
     - E2Eテスト (Playwright) の導入で、アップデート時の品質を担保
 
 ---
-Created for Osamari Development
+Created for Osamary Development
 

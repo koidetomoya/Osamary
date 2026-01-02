@@ -15,7 +15,7 @@ export function Footer() {
                 </Link>
             </div>
             <p className="text-xs text-slate-400">
-                &copy; {new Date().getFullYear()} Osamari. All rights reserved.
+                &copy; {new Date().getFullYear()} Osamary. All rights reserved.
             </p>
         </footer>
     );

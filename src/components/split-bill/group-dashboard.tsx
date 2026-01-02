@@ -136,8 +136,8 @@ export default function GroupDashboard({
     const handleShare = async () => {
         const url = window.location.href;
         const shareData = {
-            title: `Osamari - ${groupName}`,
-            text: `${groupName || "新しいグループ"}の割り勘へ参加をお願いします！｜Osamari`,
+            title: `Osamary - ${groupName}`,
+            text: `${groupName || "新しいグループ"}の割り勘へ参加をお願いします！｜Osamary`,
             url: url,
         };
 
@@ -179,7 +179,7 @@ export default function GroupDashboard({
             <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-md px-4 py-3 shadow-sm">
                 <div className="mx-auto flex max-w-5xl items-center justify-between">
                     <Link href="/" className="hover:opacity-70 transition-opacity">
-                        <h1 className="text-lg font-semibold text-slate-800">Osamari</h1>
+                        <h1 className="text-lg font-semibold text-slate-800">Osamary</h1>
                     </Link>
                     <div className="flex gap-2 items-center">
                         <LineLoginButton />

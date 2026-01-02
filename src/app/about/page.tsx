@@ -12,14 +12,14 @@ export default function AboutPage() {
 
             <section className="mb-8">
                 <h2 className="text-xl font-bold mb-4">運営者</h2>
-                <p>Osamari 開発チーム</p>
+                <p>Osamary 開発チーム</p>
             </section>
 
             <section className="mb-8">
                 <h2 className="text-xl font-bold mb-4">お問い合わせ</h2>
                 <p>不具合の報告やご要望は、以下のGitHubリポジトリのIssueまでお願いいたします。</p>
                 <a
-                    href="https://github.com/koidetomoya/Osamari/issues"
+                    href="https://github.com/koidetomoya/Osamary/issues"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:underline"

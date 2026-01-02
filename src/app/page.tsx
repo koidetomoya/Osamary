@@ -41,7 +41,7 @@ export default function Home() {
         <div className="space-y-8 text-left md:py-12">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
-              Osamari
+              Osamary
             </h1>
             <p className="text-slate-600 text-lg md:text-xl leading-relaxed">
               リンクをシェアして支払いを入力するだけ。

@@ -1,7 +1,7 @@
-# Osamari - 最小回数で割り勘精算
+# Osamary - 最小回数で割り勘精算
 
 **「面倒な割り勘計算を、一瞬で。」**
-Osamari（オサマリ）は、旅行やイベントなどでの複雑な立て替え払いを記録し、最終的に誰が誰にいくら払えばいいか（精算プラン）を**最小の送金回数**になるよう自動計算するWebアプリケーションです。
+Osamary（オサマリー）は、旅行やイベントなどでの複雑な立て替え払いを記録し、最終的に誰が誰にいくら払えばいいか（精算プラン）を**最小の送金回数**になるよう自動計算するWebアプリケーションです。
 
 ## ✨ 特徴
 
@@ -24,8 +24,8 @@ Osamari（オサマリ）は、旅行やイベントなどでの複雑な立て�
 
 ### 1. リポジトリのクローン
 ```bash
-git clone https://github.com/your-username/osamari.git
-cd osamari
+git clone https://github.com/your-username/osamary.git
+cd osamary
 ```
 
 ### 2. 依存関係のインストール
@@ -41,7 +41,7 @@ npm install
 AWS_ACCESS_KEY_ID=your_access_key
 AWS_SECRET_ACCESS_KEY=your_secret_key
 AWS_REGION=ap-northeast-1
-DYNAMODB_TABLE_NAME=OsamariData
+DYNAMODB_TABLE_NAME=OsamaryData
 # LINE連携用 (LINE Developers Consoleで発行)
 NEXT_PUBLIC_LINE_LIFF_ID=your_liff_id
 ```

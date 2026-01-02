@@ -12,7 +12,7 @@ const mplus = M_PLUS_Rounded_1c({
 });
 
 export const metadata: Metadata = {
-  title: "Osamari - 最小回数で割り勘精算",
+  title: "Osamary - 最小回数で割り勘精算",
   description: "面倒な割り勘計算を一瞬で解決。旅行やイベントの精算アプリ。",
 };
 
