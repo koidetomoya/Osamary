@@ -199,3 +199,16 @@ export async function getUserGroups(lineUserId: string) {
     }));
 }
 
+export async function deleteUserGroup(lineUserId: string, groupId: string) {
+    await db.send(
+        new DeleteCommand({
+            TableName: TABLE_NAME,
+            Key: {
+                PK: `USER#${lineUserId}`,
+                SK: `GROUP#${groupId}`,
+            },
+        })
+    );
+}
+
+

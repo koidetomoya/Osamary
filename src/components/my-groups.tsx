@@ -1,11 +1,11 @@
-"use client";
-
 import { useLiff } from "@/lib/liff-provider";
 import { useEffect, useState } from "react";
-import { getUserGroups } from "@/app/actions";
+import { getUserGroups, deleteUserGroup } from "@/app/actions";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { Clock, ChevronRight } from "lucide-react";
+import { Clock, ChevronRight, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 interface UserGroup {
     groupId: string;
@@ -27,6 +27,26 @@ export default function MyGroups() {
                 .finally(() => setLoading(false));
         }
     }, [isLoggedIn, profile]);
+
+    const handleDelete = async (e: React.MouseEvent, groupId: string, groupName: string) => {
+        e.preventDefault(); // Prevent Link navigation
+        if (!confirm(`「${groupName}」の履歴を削除しますか？\n※グループ自体は削除されません`)) return;
+
+        if (!profile?.userId) return;
+
+        // Optimistic update
+        const previousGroups = [...groups];
+        setGroups((prev) => prev.filter((g) => g.groupId !== groupId));
+
+        try {
+            await deleteUserGroup(profile.userId, groupId);
+            toast.success("履歴から削除しました");
+        } catch (error) {
+            console.error("Failed to delete group history", error);
+            toast.error("削除に失敗しました");
+            setGroups(previousGroups);
+        }
+    };
 
     if (!isLoggedIn) {
         return (
@@ -52,7 +72,7 @@ export default function MyGroups() {
                 <div className="space-y-2">
                     {groups.map((group) => (
                         <Link href={`/group/${group.groupId}`} key={group.groupId}>
-                            <div className="flex items-center justify-between p-3 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 transition-colors cursor-pointer">
+                            <div className="flex items-center justify-between p-3 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 transition-colors cursor-pointer group">
                                 <div>
                                     <h3 className="font-medium text-slate-900 text-sm">
                                         {group.groupName || "名称未設定"}
@@ -64,7 +84,17 @@ export default function MyGroups() {
                                         </span>
                                     </div>
                                 </div>
-                                <ChevronRight size={14} className="text-slate-300" />
+                                <div className="flex items-center gap-2">
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 text-slate-300 hover:text-red-500 hover:bg-red-50"
+                                        onClick={(e) => handleDelete(e, group.groupId, group.groupName)}
+                                    >
+                                        <Trash2 size={16} />
+                                    </Button>
+                                    <ChevronRight size={14} className="text-slate-300" />
+                                </div>
                             </div>
                         </Link>
                     ))}
