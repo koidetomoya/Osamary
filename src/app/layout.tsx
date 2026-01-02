@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { M_PLUS_Rounded_1c } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { LiffProvider } from "@/lib/liff-provider";
 
 const mplus = M_PLUS_Rounded_1c({
   weight: ["400", "500", "700", "800"],
@@ -24,8 +25,10 @@ export default function RootLayout({
       <body
         className={`${mplus.variable} font-sans antialiased`}
       >
-        {children}
-        <Toaster />
+        <LiffProvider>
+          {children}
+          <Toaster />
+        </LiffProvider>
       </body>
     </html>
   );

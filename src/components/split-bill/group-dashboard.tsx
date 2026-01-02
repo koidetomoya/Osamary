@@ -10,9 +10,11 @@ import ExpenseFormDialog from "@/components/split-bill/add-expense-dialog";
 import SettlementSummary from "@/components/split-bill/settlement-summary";
 import { Button } from "@/components/ui/button";
 import { Share2, RotateCw } from "lucide-react";
-import { addMember, deleteMember, addExpense, deleteExpense } from "@/app/actions";
+import { addMember, deleteMember, addExpense, deleteExpense, updateExpense, saveUserGroup } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useLiff } from "@/lib/liff-provider";
+import LineLoginButton from "@/components/line-login-button";
 
 interface GroupDashboardProps {
     groupId: string;
@@ -28,6 +30,7 @@ export default function GroupDashboard({
     initialExpenses,
 }: GroupDashboardProps) {
     const router = useRouter();
+    const { isLoggedIn, profile } = useLiff();
 
     // Use local state for immediate feedback/optimistic updates
     const [members, setMembers] = useState<Member[]>(initialMembers);
@@ -37,6 +40,14 @@ export default function GroupDashboard({
         setMembers(initialMembers);
         setExpenses(initialExpenses);
     }, [initialMembers, initialExpenses]);
+
+    // Save group to user's history when logged in
+    useEffect(() => {
+        if (isLoggedIn && profile?.userId) {
+            saveUserGroup(profile.userId, groupId, groupName || "No Name")
+                .catch(err => console.error("Failed to save group history", err));
+        }
+    }, [isLoggedIn, profile, groupId, groupName]);
 
     // Derived state
     const settlements = useMemo(() => calculateSettlements(members, expenses), [members, expenses]);
@@ -170,7 +181,8 @@ export default function GroupDashboard({
                     <Link href="/" className="hover:opacity-70 transition-opacity">
                         <h1 className="text-lg font-semibold text-slate-800">Osamari</h1>
                     </Link>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center">
+                        <LineLoginButton />
                         <Button variant="ghost" size="sm" onClick={handleRefresh} className="gap-2">
                             <RotateCw size={16} />
                             <span className="hidden sm:inline">更新</span>

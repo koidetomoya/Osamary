@@ -9,6 +9,8 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { createGroup } from "@/app/actions";
+import LineLoginButton from "@/components/line-login-button";
+import MyGroups from "@/components/my-groups";
 
 export default function Home() {
   const router = useRouter();
@@ -30,6 +32,10 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100 p-4 text-center">
+      <div className="absolute top-4 right-4">
+        <LineLoginButton />
+      </div>
+
       <div className="max-w-md space-y-8 w-full">
         <div className="space-y-4">
 
@@ -62,6 +68,8 @@ export default function Home() {
             ログイン不要・即座に使い始められます
           </p>
         </div>
+
+        <MyGroups />
       </div>
     </div>
   );

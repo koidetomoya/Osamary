@@ -149,3 +149,53 @@ export async function updateExpense(groupId: string, expense: Expense) {
     );
     revalidatePath(`/group/${groupId}`);
 }
+
+export async function saveUserProfile(lineUserId: string, name: string, pictureUrl?: string) {
+    await db.send(
+        new PutCommand({
+            TableName: TABLE_NAME,
+            Item: {
+                PK: `USER#${lineUserId}`,
+                SK: "PROFILE",
+                name,
+                pictureUrl,
+                updatedAt: new Date().toISOString(),
+            },
+        })
+    );
+}
+
+export async function saveUserGroup(lineUserId: string, groupId: string, groupName: string) {
+    const joinedAt = new Date().toISOString();
+    await db.send(
+        new PutCommand({
+            TableName: TABLE_NAME,
+            Item: {
+                PK: `USER#${lineUserId}`,
+                SK: `GROUP#${groupId}`,
+                groupName,
+                joinedAt,
+            },
+        })
+    );
+}
+
+export async function getUserGroups(lineUserId: string) {
+    const result = await db.send(
+        new QueryCommand({
+            TableName: TABLE_NAME,
+            KeyConditionExpression: "PK = :pk AND begins_with(SK, :sk)",
+            ExpressionAttributeValues: {
+                ":pk": `USER#${lineUserId}`,
+                ":sk": "GROUP#",
+            },
+        })
+    );
+
+    return (result.Items || []).map((item) => ({
+        groupId: item.SK.replace("GROUP#", ""),
+        groupName: item.groupName,
+        joinedAt: item.joinedAt,
+    }));
+}
+
