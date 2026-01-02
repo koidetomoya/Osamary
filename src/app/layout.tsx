@@ -15,6 +15,14 @@ export const metadata: Metadata = {
   description: "面倒な割り勘計算を一瞬で解決。旅行やイベントの精算アプリ。",
 };
 
+export const viewport = {
+  themeColor: "#ffffff",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false, // Prevent zooming to feel more like an app
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,8 +34,10 @@ export default function RootLayout({
         className={`${mplus.variable} font-sans antialiased`}
       >
         <LiffProvider>
-          {children}
-          <Toaster />
+          <div id="app-root" className="h-full w-full overflow-y-auto overflow-x-hidden">
+            {children}
+            <Toaster />
+          </div>
         </LiffProvider>
       </body>
     </html>
