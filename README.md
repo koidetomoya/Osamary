@@ -42,7 +42,21 @@ AWS_ACCESS_KEY_ID=your_access_key
 AWS_SECRET_ACCESS_KEY=your_secret_key
 AWS_REGION=ap-northeast-1
 DYNAMODB_TABLE_NAME=OsamariData
+# LINE連携用 (LINE Developers Consoleで発行)
+NEXT_PUBLIC_LINE_LIFF_ID=your_liff_id
 ```
+
+### 4. LINE連携のセットアップ (任意)
+LINEログイン機能を使用する場合、[LINE Developers Console](https://developers.line.biz/) で以下の設定が必要です。
+
+1. 新規チャネル作成 (LINE Login)
+2. **LIFF** タブでLIFFアプリを追加
+    - Size: Full (推奨)
+    - Endpoint URL:
+        - 開発環境: `https://localhost:3001` (要https化)
+        - 本番環境: `https://your-domain.com`
+3. 発行された **LIFF ID** を `.env.local` に設定
+
 
 ### 4. 開発サーバーの起動
 ```bash
