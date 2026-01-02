@@ -3,6 +3,7 @@ import { M_PLUS_Rounded_1c } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { LiffProvider } from "@/lib/liff-provider";
+import { Footer } from "@/components/footer";
 
 const mplus = M_PLUS_Rounded_1c({
   weight: ["400", "500", "700", "800"],
@@ -34,8 +35,11 @@ export default function RootLayout({
         className={`${mplus.variable} font-sans antialiased`}
       >
         <LiffProvider>
-          <div id="app-root" className="h-full w-full overflow-y-auto overflow-x-hidden">
-            {children}
+          <div id="app-root" className="h-full w-full overflow-y-auto overflow-x-hidden flex flex-col">
+            <div className="flex-1">
+              {children}
+            </div>
+            <Footer />
             <Toaster />
           </div>
         </LiffProvider>

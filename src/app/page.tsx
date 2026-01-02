@@ -31,7 +31,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100 p-4 text-center">
+    <div className="flex flex-col items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100 p-4 text-center min-h-full">
       <div className="absolute top-4 right-4">
         <LineLoginButton />
       </div>
