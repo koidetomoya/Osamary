@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import LineLoginButton from "@/components/line-login-button";
 import { useState } from "react";
 import { createGroup } from "@/app/actions";
 import MyGroups from "@/components/my-groups";
@@ -34,11 +35,16 @@ export default function Home() {
       {/* Background Gradients */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[100px] pointer-events-none" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/20 blur-[100px] pointer-events-none" />
+
+      {/* User Info (Top Right) - Only visible when logged in */}
+      <div className="absolute top-4 right-4 z-10">
+        <LineLoginButton showLoginButton={false} />
+      </div>
       {/* Login button moved to MyGroups component */}
 
       <div className="w-full max-w-5xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-16 items-center h-full">
         {/* Left Column: Hero & Create Form - Fixed on mobile, centered on desktop */}
-        <div className="space-y-8 text-left md:py-12 flex-none pt-36 md:pt-0">
+        <div className="space-y-8 text-left md:py-12 flex-none pt-12 md:pt-0">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
               Osamary

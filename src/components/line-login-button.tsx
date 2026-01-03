@@ -10,7 +10,11 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function LineLoginButton() {
+interface LineLoginButtonProps {
+    showLoginButton?: boolean;
+}
+
+export default function LineLoginButton({ showLoginButton = true }: LineLoginButtonProps) {
     const { isLoggedIn, login, logout, profile, error } = useLiff();
 
     // Loading state or initial state handled by provider logic usually,
@@ -54,6 +58,8 @@ export default function LineLoginButton() {
             </DropdownMenu>
         );
     }
+
+    if (!showLoginButton) return null;
 
     return (
         <Button
