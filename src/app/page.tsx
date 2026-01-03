@@ -44,7 +44,7 @@ export default function Home() {
 
       <div className="w-full max-w-5xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-16 items-center h-full">
         {/* Left Column: Hero & Create Form - Fixed on mobile, centered on desktop */}
-        <div className="space-y-8 text-left md:py-12 flex-none pt-12 md:pt-0">
+        <div className="space-y-8 text-left md:py-12 flex-none pt-28 md:pt-0">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
               Osamary
