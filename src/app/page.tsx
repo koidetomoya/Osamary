@@ -9,7 +9,6 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { createGroup } from "@/app/actions";
-import LineLoginButton from "@/components/line-login-button";
 import MyGroups from "@/components/my-groups";
 
 export default function Home() {
@@ -31,14 +30,15 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 text-center min-h-full">
-      <div className="absolute top-4 right-4">
-        <LineLoginButton />
-      </div>
+    <div className="relative flex flex-col items-center p-4 text-center h-full overflow-hidden">
+      {/* Background Gradients */}
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/20 blur-[100px] pointer-events-none" />
+      {/* Login button moved to MyGroups component */}
 
-      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
-        {/* Left Column: Hero & Create Form */}
-        <div className="space-y-8 text-left md:py-12">
+      <div className="w-full max-w-5xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-16 items-center h-full">
+        {/* Left Column: Hero & Create Form - Fixed on mobile, centered on desktop */}
+        <div className="space-y-8 text-left md:py-12 flex-none pt-36 md:pt-0">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
               Osamary
@@ -68,8 +68,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Right Column: History */}
-        <div className="w-full">
+        {/* Right Column: History - Scrollable */}
+        <div className="w-full flex-1 md:h-full md:flex-none md:flex md:items-center overflow-y-auto min-h-0 pb-4 md:pb-0 scrollbar-hide">
           <MyGroups />
         </div>
       </div>

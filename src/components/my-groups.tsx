@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Clock, ChevronRight, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import LineLoginButton from "@/components/line-login-button";
 
 interface UserGroup {
     groupId: string;
@@ -55,6 +56,9 @@ export default function MyGroups() {
                     LINEでログインすると<br />
                     アクセスしたグループがここに履歴として残ります
                 </p>
+                <div className="pt-2">
+                    <LineLoginButton />
+                </div>
             </div>
         );
     }
@@ -69,7 +73,7 @@ export default function MyGroups() {
                     履歴はありません
                 </div>
             ) : (
-                <div className="space-y-2">
+                <div className="space-y-4">
                     {groups.map((group) => (
                         <Link href={`/group/${group.groupId}`} key={group.groupId}>
                             <div className="flex items-center justify-between p-3 bg-card rounded-xl shadow-sm border border-border hover:bg-muted transition-colors cursor-pointer group">
