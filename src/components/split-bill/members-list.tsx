@@ -1,4 +1,7 @@
+"use client";
+
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Member } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,23 +28,36 @@ export default function MembersList({ members, onAdd, onRemove }: MembersListPro
     return (
         <div className="space-y-3">
             <div className="flex flex-wrap gap-2">
-                {members.map((member) => (
-                    <div
-                        key={member.id}
-                        className="flex items-center gap-2 rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200"
-                    >
-                        <User size={14} className="text-slate-400" />
-                        <span className="text-sm font-medium text-slate-700">{member.name}</span>
-                        <button
-                            onClick={() => onRemove(member.id)}
-                            className="ml-1 rounded-full p-0.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+                <AnimatePresence mode="popLayout">
+                    {members.map((member) => (
+                        <motion.div
+                            key={member.id}
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0, opacity: 0 }}
+                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                            layout
+                            className="flex items-center gap-2 rounded-full bg-card px-3 py-1.5 shadow-sm ring-1 ring-border"
                         >
-                            <X size={14} />
-                        </button>
-                    </div>
-                ))}
+                            <User size={14} className="text-muted-foreground" />
+                            <span className="text-sm font-medium text-foreground">{member.name}</span>
+                            <button
+                                onClick={() => onRemove(member.id)}
+                                className="ml-1 rounded-full p-0.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+                            >
+                                <X size={14} />
+                            </button>
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
                 {members.length === 0 && (
-                    <p className="text-sm text-slate-400 py-1.5 px-2">メンバーを追加してください</p>
+                    <div className="flex flex-col items-center justify-center py-6 text-muted-foreground w-full border border-dashed border-border rounded-xl bg-muted/30">
+                        <div className="bg-background p-2 rounded-full mb-2 ring-1 ring-border shadow-sm">
+                            <UserPlus className="h-5 w-5 opacity-70" />
+                        </div>
+                        <span className="text-sm font-medium">メンバーを追加してください</span>
+                        <span className="text-xs opacity-70 mt-0.5">まずは自分や友達の名前を入力</span>
+                    </div>
                 )}
             </div>
 
@@ -50,7 +66,7 @@ export default function MembersList({ members, onAdd, onRemove }: MembersListPro
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     placeholder="名前を入力..."
-                    className="h-10 bg-white"
+                    className="h-10 bg-card"
                 />
                 <Button type="submit" disabled={!newName.trim()} size="icon" className="h-10 w-10 shrink-0">
                     <UserPlus size={18} />

@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useLiff } from "@/lib/liff-provider";
 import LineLoginButton from "@/components/line-login-button";
 
+
 interface GroupDashboardProps {
     groupId: string;
     groupName: string;
@@ -176,10 +177,10 @@ export default function GroupDashboard({
     return (
         <div className="min-h-screen bg-background pb-20 md:pb-8">
             {/* Header */}
-            <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-md px-4 py-3 shadow-sm">
+            <header className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur-md px-4 py-3 shadow-sm border-border">
                 <div className="mx-auto flex max-w-5xl items-center justify-between">
                     <Link href="/" className="hover:opacity-70 transition-opacity">
-                        <h1 className="text-lg font-semibold text-slate-800">Osamary</h1>
+                        <h1 className="text-lg font-semibold text-foreground">Osamary</h1>
                     </Link>
                     <div className="flex gap-2 items-center">
                         <LineLoginButton />
@@ -191,9 +192,9 @@ export default function GroupDashboard({
                 {/* Group Name */}
                 {groupName && (
                     <div className="mb-6 flex items-center justify-between gap-4">
-                        <h1 className="text-2xl font-bold text-slate-900 truncate">{groupName}</h1>
+                        <h1 className="text-2xl font-bold text-foreground truncate">{groupName}</h1>
                         <div className="flex items-center gap-1">
-                            <Button variant="ghost" size="icon" onClick={handleRefresh} className="text-slate-500 hover:text-slate-900" title="更新">
+                            <Button variant="ghost" size="icon" onClick={handleRefresh} className="text-muted-foreground hover:text-foreground" title="更新">
                                 <RotateCw size={20} />
                             </Button>
                             <Button variant="ghost" size="icon" onClick={handleShare} className="text-primary hover:text-primary/90 hover:bg-primary/5" title="共有">
@@ -210,15 +211,15 @@ export default function GroupDashboard({
                         {/* Actually, let's keep members first as context provider */}
 
                         {/* Members Section */}
-                        <section className="space-y-3 bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-                            <h2 className="text-lg font-medium text-slate-700">メンバー ({members.length})</h2>
+                        <section className="space-y-3 bg-card p-4 rounded-2xl shadow-sm border border-border">
+                            <h2 className="text-lg font-medium text-card-foreground">メンバー ({members.length})</h2>
                             <MembersList members={members} onAdd={handleAddMember} onRemove={handleRemoveMember} />
                         </section>
 
                         {/* Settlement Section */}
                         {members.length > 1 && expenses.length > 0 && (
-                            <section className="space-y-3 bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-                                <h2 className="text-lg font-medium text-slate-700">精算プラン</h2>
+                            <section className="space-y-3 bg-card p-4 rounded-2xl shadow-sm border border-border">
+                                <h2 className="text-lg font-medium text-card-foreground">精算プラン</h2>
                                 <SettlementSummary settlements={settlements} members={members} />
                             </section>
                         )}
@@ -227,7 +228,7 @@ export default function GroupDashboard({
                     {/* Right Column (Expenses) */}
                     <div className="md:col-span-8 space-y-4">
                         <div className="flex items-center justify-between">
-                            <h2 className="text-lg font-medium text-slate-700">支払い履歴</h2>
+                            <h2 className="text-lg font-medium text-card-foreground">支払い履歴</h2>
                             {/* Desktop Add Button - Placed here */}
                             <div className="hidden md:block">
                                 <ExpenseFormDialog members={members} onSubmit={handleAddExpense} />
@@ -235,8 +236,8 @@ export default function GroupDashboard({
                         </div>
 
                         {expenses.length === 0 ? (
-                            <div className="text-center py-10 bg-slate-100/50 rounded-2xl border border-dashed border-slate-200">
-                                <p className="text-slate-500 text-sm">まだ支払いがありません</p>
+                            <div className="text-center py-10 bg-muted/50 rounded-2xl border border-dashed border-border">
+                                <p className="text-muted-foreground text-sm">まだ支払いがありません</p>
                             </div>
                         ) : (
                             <div className="">

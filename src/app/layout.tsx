@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { LiffProvider } from "@/lib/liff-provider";
 import { Footer } from "@/components/footer";
 
+
 const mplus = M_PLUS_Rounded_1c({
   weight: ["400", "500", "700", "800"],
   subsets: ["latin"],
@@ -35,7 +36,7 @@ export default function RootLayout({
         className={`${mplus.variable} font-sans antialiased`}
       >
         <LiffProvider>
-          <div id="app-root" className="h-full w-full overflow-y-auto overflow-x-hidden flex flex-col">
+          <div id="app-root" className="h-full w-full overflow-y-auto overflow-x-hidden flex flex-col bg-background text-foreground transition-colors duration-300">
             <div className="flex-1">
               {children}
             </div>

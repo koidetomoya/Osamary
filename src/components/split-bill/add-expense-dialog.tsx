@@ -34,6 +34,7 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
     const [amount, setAmount] = useState(initialData?.amount.toString() || "");
     const [note, setNote] = useState(initialData?.note || "");
     const [payerId, setPayerId] = useState(initialData?.payerId || "");
+
     const [involvedMemberIds, setInvolvedMemberIds] = useState<string[]>(initialData?.involvedMemberIds || []);
 
     // Currency Support
@@ -47,6 +48,7 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
             setAmount(initialData?.amount.toString() || "");
             setNote(initialData?.note || "");
             setPayerId(initialData?.payerId || "");
+
             // If editing, use existing involved members. If creating, default to all.
             setInvolvedMemberIds(initialData?.involvedMemberIds || members.map((m) => m.id));
 
@@ -80,6 +82,7 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
             currencyCode: currency,
             foreignAmount: currency !== "JPY" && foreignAmount ? parseFloat(foreignAmount) : undefined,
             exchangeRate: currency !== "JPY" && exchangeRate ? parseFloat(exchangeRate) : undefined,
+
         });
 
         setOpen(false);
@@ -89,6 +92,7 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
             setCurrency("JPY");
             setForeignAmount("");
             setExchangeRate("");
+
         }
         // Keep payerId
     };
@@ -133,158 +137,165 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
+            <DialogContent className="sm:max-w-md max-h-[90vh] flex flex-col !p-0 !gap-0 overflow-hidden">
+                <DialogHeader className="px-6 pt-6 pb-2">
                     <DialogTitle>{initialData ? "支払いを編集" : "支払いを記録する"}</DialogTitle>
                     <DialogDescription>
                         金額と支払った人、割り勘の対象者を入力してください。
                     </DialogDescription>
                 </DialogHeader>
 
-                <form onSubmit={handleSubmit} className="space-y-4 py-2">
-                    {/* Payer */}
-                    <div className="space-y-2">
-                        <Label htmlFor="payer">支払者</Label>
-                        <Select value={payerId} onValueChange={setPayerId}>
-                            <SelectTrigger id="payer">
-                                <SelectValue placeholder="誰が支払いましたか？" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {members.map((m) => (
-                                    <SelectItem key={m.id} value={m.id}>
-                                        {m.name}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    {/* Currency Select */}
-                    <div className="space-y-2">
-                        <Label htmlFor="currency">通貨</Label>
-                        <Select value={currency} onValueChange={setCurrency}>
-                            <SelectTrigger id="currency">
-                                <SelectValue placeholder="通貨を選択" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {currencies.map((c) => (
-                                    <SelectItem key={c.code} value={c.code}>
-                                        {c.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    {/* Foreign Amount & Rate (if not JPY) */}
-                    {currency !== "JPY" && (
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="foreignAmount">現地金額 ({currency})</Label>
-                                <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">
-                                        {currentCurrencySymbol}
-                                    </span>
-                                    <Input
-                                        id="foreignAmount"
-                                        type="number"
-                                        step="0.01"
-                                        placeholder="0.00"
-                                        className="pl-8"
-                                        value={foreignAmount}
-                                        onChange={(e) => setForeignAmount(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="exchangeRate">レート (対円)</Label>
-                                <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs">
-                                        x
-                                    </span>
-                                    <Input
-                                        id="exchangeRate"
-                                        type="number"
-                                        step="0.01"
-                                        placeholder="150"
-                                        className="pl-6"
-                                        value={exchangeRate}
-                                        onChange={(e) => setExchangeRate(e.target.value)}
-                                    />
-                                </div>
-                            </div>
+                <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
+                    <div className="flex-1 overflow-y-auto px-6 py-2 space-y-4">
+                        {/* Payer */}
+                        <div className="space-y-2">
+                            <Label htmlFor="payer">支払者</Label>
+                            <Select value={payerId} onValueChange={setPayerId}>
+                                <SelectTrigger id="payer">
+                                    <SelectValue placeholder="誰が支払いましたか？" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {members.map((m) => (
+                                        <SelectItem key={m.id} value={m.id}>
+                                            {m.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                         </div>
-                    )}
 
-                    {/* Amount (JPY) */}
-                    <div className="space-y-2">
-                        <Label htmlFor="amount">
-                            {currency === "JPY" ? "金額 (円)" : "換算金額 (円)"}
-                        </Label>
-                        <div className="relative">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">
-                                ¥
-                            </span>
+                        {/* Currency Select */}
+                        <div className="space-y-2">
+                            <Label htmlFor="currency">通貨</Label>
+                            <Select value={currency} onValueChange={setCurrency}>
+                                <SelectTrigger id="currency">
+                                    <SelectValue placeholder="通貨" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {currencies.map((c) => (
+                                        <SelectItem key={c.code} value={c.code}>
+                                            {c.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {/* Amount (JPY) */}
+                        <div className="space-y-2">
+                            <Label htmlFor="amount">
+                                {currency === "JPY" ? "金額 (円)" : "換算金額 (円)"}
+                            </Label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                                    ¥
+                                </span>
+                                <Input
+                                    id="amount"
+                                    type="number"
+                                    placeholder="0"
+                                    className="pl-7 text-lg font-bold"
+                                    value={amount}
+                                    onChange={(e) => setAmount(e.target.value)}
+                                    min="1"
+                                    readOnly={currency !== "JPY"} // Read-only if calculated from foreign currency
+                                />
+                            </div>
+                            {currency !== "JPY" && (
+                                <p className="text-xs text-muted-foreground text-right">
+                                    ※ 精算はこの日本円換算額で行われます
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Foreign Amount & Rate (if not JPY) */}
+                        {currency !== "JPY" && (
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="foreignAmount">現地金額 ({currency})</Label>
+                                    <div className="relative">
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                                            {currentCurrencySymbol}
+                                        </span>
+                                        <Input
+                                            id="foreignAmount"
+                                            type="number"
+                                            step="0.01"
+                                            placeholder="0.00"
+                                            className="pl-8"
+                                            value={foreignAmount}
+                                            onChange={(e) => setForeignAmount(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="exchangeRate">レート (対円)</Label>
+                                    <div className="relative">
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">
+                                            x
+                                        </span>
+                                        <Input
+                                            id="exchangeRate"
+                                            type="number"
+                                            step="0.01"
+                                            placeholder="150"
+                                            className="pl-6"
+                                            value={exchangeRate}
+                                            onChange={(e) => setExchangeRate(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <p className="col-span-2 text-xs text-muted-foreground text-right">
+                                    ※ 精算はこの日本円換算額で行われます
+                                </p>
+                            </div>
+                        )}
+
+
+
+
+                        <div className="space-y-2">
+                            <Label htmlFor="note">詳細 (任意)</Label>
                             <Input
-                                id="amount"
-                                type="number"
-                                placeholder="0"
-                                className="pl-7 text-lg font-bold"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
-                                min="1"
-                                readOnly={currency !== "JPY"} // Read-only if calculated from foreign currency
+                                id="note"
+                                placeholder="交通費、ランチ代など"
+                                value={note}
+                                onChange={(e) => setNote(e.target.value)}
                             />
                         </div>
-                        {currency !== "JPY" && (
-                            <p className="text-xs text-slate-500 text-right">
-                                ※ 精算はこの日本円換算額で行われます
-                            </p>
-                        )}
-                    </div>
 
-                    {/* Note */}
-                    <div className="space-y-2">
-                        <Label htmlFor="note">詳細 (任意)</Label>
-                        <Input
-                            id="note"
-                            placeholder="交通費、ランチ代など"
-                            value={note}
-                            onChange={(e) => setNote(e.target.value)}
-                        />
-                    </div>
-
-                    {/* Involved Members */}
-                    <div className="space-y-3">
-                        <Label>対象者</Label>
-                        <div className="grid grid-cols-2 gap-2">
-                            {members.map((member) => (
-                                <div
-                                    key={member.id}
-                                    className="flex items-center space-x-2 rounded-md border p-2 text-sm hover:bg-slate-50"
-                                >
-                                    <Checkbox
-                                        id={`member-${member.id}`}
-                                        checked={involvedMemberIds.includes(member.id)}
-                                        onCheckedChange={() => toggleMember(member.id)}
-                                    />
-                                    <Label
-                                        htmlFor={`member-${member.id}`}
-                                        className="flex-1 cursor-pointer font-normal"
+                        {/* Involved Members */}
+                        <div className="space-y-3">
+                            <Label>対象者</Label>
+                            <div className="grid grid-cols-2 gap-2">
+                                {members.map((member) => (
+                                    <div
+                                        key={member.id}
+                                        className="flex items-center space-x-2 rounded-md border p-2 text-sm hover:bg-accent"
                                     >
-                                        {member.name}
-                                    </Label>
-                                </div>
-                            ))}
+                                        <Checkbox
+                                            id={`member-${member.id}`}
+                                            checked={involvedMemberIds.includes(member.id)}
+                                            onCheckedChange={() => toggleMember(member.id)}
+                                        />
+                                        <Label
+                                            htmlFor={`member-${member.id}`}
+                                            className="flex-1 cursor-pointer font-normal"
+                                        >
+                                            {member.name}
+                                        </Label>
+                                    </div>
+                                ))}
+                            </div>
+                            {involvedMemberIds.length === 0 && (
+                                <p className="text-xs text-red-500">
+                                    少なくとも1人選択してください
+                                </p>
+                            )}
                         </div>
-                        {involvedMemberIds.length === 0 && (
-                            <p className="text-xs text-red-500">
-                                少なくとも1人選択してください
-                            </p>
-                        )}
-                    </div>
 
-                    <DialogFooter className="pt-4">
+                    </div>
+                    <DialogFooter className="px-6 pb-6 pt-2">
                         <Button
                             type="button"
                             variant="outline"
@@ -298,6 +309,6 @@ export default function ExpenseFormDialog({ members, onSubmit, initialData, trig
                     </DialogFooter>
                 </form>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     );
 }
