@@ -10,11 +10,10 @@ import ExpenseFormDialog from "@/components/split-bill/add-expense-dialog";
 import SettlementSummary from "@/components/split-bill/settlement-summary";
 import { Button } from "@/components/ui/button";
 import { Share2, RotateCw } from "lucide-react";
-import { addMember, deleteMember, addExpense, deleteExpense, updateExpense, saveUserGroup } from "@/app/actions";
+import { addMember, deleteMember, addExpense, deleteExpense, updateExpense } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useLiff } from "@/lib/liff-provider";
-import LineLoginButton from "@/components/line-login-button";
+import { useGroupHistory } from "@/hooks/use-group-history";
 
 
 interface GroupDashboardProps {
@@ -31,7 +30,7 @@ export default function GroupDashboard({
     initialExpenses,
 }: GroupDashboardProps) {
     const router = useRouter();
-    const { isLoggedIn, profile } = useLiff();
+    const { saveGroup } = useGroupHistory();
 
     // Use local state for immediate feedback/optimistic updates
     const [members, setMembers] = useState<Member[]>(initialMembers);
@@ -42,13 +41,12 @@ export default function GroupDashboard({
         setExpenses(initialExpenses);
     }, [initialMembers, initialExpenses]);
 
-    // Save group to user's history when logged in
+    // Save group to local history on mount/update
     useEffect(() => {
-        if (isLoggedIn && profile?.userId) {
-            saveUserGroup(profile.userId, groupId, groupName || "No Name")
-                .catch(err => console.error("Failed to save group history", err));
+        if (groupId && groupName) {
+            saveGroup(groupId, groupName);
         }
-    }, [isLoggedIn, profile, groupId, groupName]);
+    }, [groupId, groupName, saveGroup]);
 
     // Derived state
     const settlements = useMemo(() => calculateSettlements(members, expenses), [members, expenses]);
@@ -183,7 +181,7 @@ export default function GroupDashboard({
                         <h1 className="text-lg font-semibold text-foreground">Osamary</h1>
                     </Link>
                     <div className="flex gap-2 items-center">
-                        <LineLoginButton />
+                        {/* Header Actions if any */}
                     </div>
                 </div>
             </header>

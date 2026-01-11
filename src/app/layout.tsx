@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { M_PLUS_Rounded_1c } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import { LiffProvider } from "@/lib/liff-provider";
 import { Footer } from "@/components/footer";
 
 
@@ -35,15 +34,13 @@ export default function RootLayout({
       <body
         className={`${mplus.variable} font-sans antialiased`}
       >
-        <LiffProvider>
-          <div id="app-root" className="h-full w-full overflow-y-auto overflow-x-hidden flex flex-col bg-background text-foreground transition-colors duration-300">
-            <div className="flex-1">
-              {children}
-            </div>
-            <Footer />
-            <Toaster />
+        <div id="app-root" className="h-full w-full overflow-y-auto overflow-x-hidden flex flex-col bg-background text-foreground transition-colors duration-300">
+          <div className="flex-1">
+            {children}
           </div>
-        </LiffProvider>
+          <Footer />
+          <Toaster />
+        </div>
       </body>
     </html>
   );
