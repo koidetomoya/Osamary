@@ -33,7 +33,7 @@ export default function MyGroups() {
                     履歴はありません
                 </div>
             ) : (
-                <div className="space-y-4">
+                <div className="flex flex-col gap-2">
                     {groups.map((group) => (
                         <Link href={`/group/${group.groupId}`} key={group.groupId}>
                             <div className="flex items-center justify-between p-3 bg-card rounded-xl shadow-sm border border-border hover:bg-muted transition-colors cursor-pointer group">
