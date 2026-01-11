@@ -14,6 +14,15 @@ const mplus = M_PLUS_Rounded_1c({
 export const metadata: Metadata = {
   title: "Osamary - 最小回数で割り勘精算",
   description: "面倒な割り勘計算を一瞬で解決。旅行やイベントの精算アプリ。",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Osamary",
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export const viewport = {
