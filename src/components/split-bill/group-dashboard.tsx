@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+
 import { useState, useMemo, useEffect } from "react";
 import { Member, Expense } from "@/lib/types";
 import { calculateSettlements } from "@/lib/logic";
@@ -177,9 +177,9 @@ export default function GroupDashboard({
             {/* Header */}
             <header className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur-md px-4 py-3 shadow-sm border-border">
                 <div className="mx-auto flex max-w-5xl items-center justify-between">
-                    <Link href="/" className="hover:opacity-70 transition-opacity">
+                    <div onClick={() => router.push('/')} className="hover:opacity-70 transition-opacity cursor-pointer">
                         <h1 className="text-lg font-semibold text-foreground">Osamary</h1>
-                    </Link>
+                    </div>
                     <div className="flex gap-2 items-center">
                         {/* Header Actions if any */}
                     </div>

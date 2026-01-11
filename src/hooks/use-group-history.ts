@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export interface GroupHistoryItem {
     groupId: string;
@@ -27,7 +27,7 @@ export function useGroupHistory() {
         setIsLoaded(true);
     }, []);
 
-    const saveGroup = (groupId: string, groupName: string) => {
+    const saveGroup = useCallback((groupId: string, groupName: string) => {
         setHistory((prev) => {
             // Remove existing entry for this group if present
             const filtered = prev.filter((item) => item.groupId !== groupId);
@@ -41,15 +41,15 @@ export function useGroupHistory() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(newHistory));
             return newHistory;
         });
-    };
+    }, []);
 
-    const removeGroup = (groupId: string) => {
+    const removeGroup = useCallback((groupId: string) => {
         setHistory((prev) => {
             const newHistory = prev.filter((item) => item.groupId !== groupId);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(newHistory));
             return newHistory;
         });
-    };
+    }, []);
 
     const getHistory = () => {
         return history;
